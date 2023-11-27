@@ -12,7 +12,7 @@ public class MoodDetail {
     private long moodDetailId;
 
     @ManyToOne
-    @JoinColumn(name = "journal_entry_FKey_Id")//foreign key column
+    @JoinColumn(name = "journal_entry_id")//foreign key column
     private JournalEntry journalEntry;
     @Column(name = "date_&_time")
     private LocalDateTime entryDateTime;//time of day when the detailed entry was written

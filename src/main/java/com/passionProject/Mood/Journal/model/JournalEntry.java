@@ -27,7 +27,7 @@ public class JournalEntry {
     @OneToMany(mappedBy = "journalEntry", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MoodDetail> moodDetails;//change to collection if changing field type later
     @ManyToOne
-    @JoinColumn(name = "user_Fkey_id")//foriegn key column in the JournalEntry table
+    @JoinColumn(name = "user_id")//foriegn key column in the JournalEntry table
     private User user;
 
     public JournalEntry() {

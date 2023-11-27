@@ -2,6 +2,7 @@ package com.passionProject.Mood.Journal.service;
 
 import com.passionProject.Mood.Journal.exceptions.JournalEntryNotFoundException;
 import com.passionProject.Mood.Journal.model.JournalEntry;
+import com.passionProject.Mood.Journal.model.User;
 import com.passionProject.Mood.Journal.repositories.JournalEntryRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,8 @@ public class JournalEntryService {
 
     @Autowired
     private JournalEntryRepo journalEntryRepo;
+    @Autowired
+    private UserService userService;
 
     private final Logger logger = LoggerFactory.getLogger(JournalEntryService.class);
 
@@ -36,7 +39,9 @@ public class JournalEntryService {
     }
 
     //create entry
-    public JournalEntry createJournalEntry(JournalEntry journalEntry){
+    public JournalEntry createJournalEntry(Long userId , JournalEntry journalEntry){
+        verifyUser(userId);
+        logger.info("Successfully created Journal Entry");
         return journalEntryRepo.save(journalEntry);
     }
     //get entry by id

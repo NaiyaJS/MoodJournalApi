@@ -1,12 +1,15 @@
 package com.passionProject.Mood.Journal.dto;
 
-public class apiResponseBody {
+public class ApiResponseBody {
 
     private int statusCode;
     private String message;
     private Object data;
 
-    public apiResponseBody(int statusCode, String message, Object data) {
+    public ApiResponseBody() {
+    }
+
+    public ApiResponseBody(int statusCode, String message, Object data) {
         this.statusCode = statusCode;
         this.message = message;
         this.data = data;
