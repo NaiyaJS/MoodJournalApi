@@ -33,13 +33,22 @@ public class JournalEntry {
     public JournalEntry() {
     }
 
-    public JournalEntry(long journalEntryId, GeneralFeeling generalFeeling, LocalDate entryDate, String notes, String weather, Set<MoodDetail> moodDetails) {
+    public JournalEntry(long journalEntryId, GeneralFeeling generalFeeling, LocalDate entryDate, String notes, String weather, Set<MoodDetail> moodDetails, User user) {
         this.journalEntryId = journalEntryId;
         this.generalFeeling = generalFeeling;
         this.entryDate = entryDate;
         this.notes = notes;
         this.weather = weather;
         this.moodDetails = moodDetails;
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public long getJournalEntryId() {

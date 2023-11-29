@@ -8,7 +8,7 @@ public class MoodDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "moodDetail_Id")
+    @Column(name = "mood_detail_id")
     private long moodDetailId;
 
     @ManyToOne

@@ -17,7 +17,7 @@ public class JournalEntryResponse {
 
     public ResponseEntity<?> createJournalEntry(Long userId, JournalEntry journalEntry ){
 
-        journalEntryService.verifyUser(userId);
+       // journalEntryService.verifyUser(userId);
         journalEntryService.createJournalEntry(userId, journalEntry);
             ApiResponseBody apiRB = new ApiResponseBody();
             apiRB.setData(journalEntry);

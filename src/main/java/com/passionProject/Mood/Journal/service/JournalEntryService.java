@@ -2,6 +2,7 @@ package com.passionProject.Mood.Journal.service;
 
 import com.passionProject.Mood.Journal.exceptions.JournalEntryNotFoundException;
 import com.passionProject.Mood.Journal.model.JournalEntry;
+import com.passionProject.Mood.Journal.model.MoodDetail;
 import com.passionProject.Mood.Journal.model.User;
 import com.passionProject.Mood.Journal.repositories.JournalEntryRepo;
 import org.slf4j.Logger;
@@ -40,9 +41,17 @@ public class JournalEntryService {
 
     //create entry
     public JournalEntry createJournalEntry(Long userId , JournalEntry journalEntry){
-        verifyUser(userId);
+        //verifyUser(userId);
+        User user = userService.verifyUser(userId);
+
+        //Additional validations or modifications before saving entry
+        journalEntry.setUser(user);
+
+        //save entry
+        JournalEntry saveEntry = journalEntryRepo.save(journalEntry);
+
         logger.info("Successfully created Journal Entry");
-        return journalEntryRepo.save(journalEntry);
+        return saveEntry;
     }
     //get entry by id
     public JournalEntry getJournalEntryById(Long journalEntryId) throws JournalEntryNotFoundException{
@@ -91,5 +100,12 @@ public class JournalEntryService {
         journalEntryRepo.deleteById(journalEntryId);
 
     }
+    //get all mood details by Journal entry Id
+
+    public Set<MoodDetail> getAllMoodDetailsByJournalEntryId(Long journalEntryId) throws JournalEntryNotFoundException{
+        JournalEntry journalEntry = verifyJournalEntry(journalEntryId);
+        return journalEntry.getMoodDetails();
+    }
+
 
 }
