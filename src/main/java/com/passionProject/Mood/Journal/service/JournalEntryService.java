@@ -1,15 +1,19 @@
 package com.passionProject.Mood.Journal.service;
 
+import com.passionProject.Mood.Journal.dto.ErrorDetails;
 import com.passionProject.Mood.Journal.exceptions.JournalEntryNotFoundException;
 import com.passionProject.Mood.Journal.model.JournalEntry;
-import com.passionProject.Mood.Journal.model.MoodDetail;
+
 import com.passionProject.Mood.Journal.model.User;
 import com.passionProject.Mood.Journal.repositories.JournalEntryRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -26,32 +30,36 @@ public class JournalEntryService {
     private final Logger logger = LoggerFactory.getLogger(JournalEntryService.class);
 
     //verify
-    public JournalEntry verifyJournalEntry(Long journalEntryId) throws JournalEntryNotFoundException {
+    public JournalEntry verifyJournalEntry(Long journalEntryId){
+
         logger.info("Verifying journal entry with id: {}", journalEntryId);
 
-        JournalEntry journalEntry = journalEntryRepo.findById(journalEntryId)
-                .orElseThrow(() -> {
-                    String errorMessage = "Journal Entry with id '" + journalEntryId + "' not found";
-                    logger.error(errorMessage);
-                    return new JournalEntryNotFoundException(errorMessage);
-                });
-        logger.info("Journal Entry '" + journalEntryId + "'verified successfully");
-        return journalEntry;
+        return journalEntryRepo.findById(journalEntryId)
+                    .orElseThrow(() -> new JournalEntryNotFoundException("Journal Entry ith id '" + journalEntryId + "' not found"));
+
     }
 
     //create entry
+
     public JournalEntry createJournalEntry(Long userId , JournalEntry journalEntry){
-        //verifyUser(userId);
-        User user = userService.verifyUser(userId);
+        logger.info("Creating Journal entry for user with id {}", userId);
+        try {
+            //verifyUser(userId);
+            User user = userService.verifyUser(userId);
 
-        //Additional validations or modifications before saving entry
-        journalEntry.setUser(user);
+            //Additional validations or modifications before saving entry
+            journalEntry.setUser(user);
 
-        //save entry
-        JournalEntry saveEntry = journalEntryRepo.save(journalEntry);
+            //save entry
+            JournalEntry saveEntry = journalEntryRepo.save(journalEntry);
 
-        logger.info("Successfully created Journal Entry");
-        return saveEntry;
+            logger.info("Successfully created Journal Entry");
+            return saveEntry;
+        }catch (Exception e) {
+            logger.error("Error creating Journal Entry", e);
+            throw e;
+        }
+
     }
     //get entry by id
     public JournalEntry getJournalEntryById(Long journalEntryId) throws JournalEntryNotFoundException{
@@ -82,6 +90,7 @@ public class JournalEntryService {
                 editJournalEntry.setGeneralFeeling(journalEntry.getGeneralFeeling());
                 editJournalEntry.setEntryDate(journalEntry.getEntryDate());
                 editJournalEntry.setNotes(journalEntry.getNotes());
+                editJournalEntry.setDetailedEntry(journalEntry.getDetailedEntry());
                 editJournalEntry.setWeather(journalEntry.getWeather());
 
 
