@@ -10,4 +10,8 @@ public class JournalEntryNotFoundException extends RuntimeException{
         super(message);
     }
 
+    public JournalEntryNotFoundException(Long journalEntryId) {
+        super("Journal Entry with id '" + journalEntryId + "' not found");
+    }
+
 }

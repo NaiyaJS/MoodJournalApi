@@ -56,48 +56,88 @@ public class JournalEntryController {
     }
     //get entry by id
     @GetMapping("/journalEntry/{journalEntryId}")
-    public ResponseEntity<JournalEntry> getJournalEntryById(@PathVariable Long journalEntryId){
-        try{
+    public ResponseEntity<ApiResponseBody> getJournalEntryById(@PathVariable Long journalEntryId) {
+        try {
             JournalEntry journalEntry = journalEntryService.getJournalEntryById(journalEntryId);
-            return new ResponseEntity<>(journalEntry, HttpStatus.OK);
-        }catch(JournalEntryNotFoundException e){
-            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            ApiResponseBody responseBody = buildSuccessResponse("Journal Entry retrieved successfully", journalEntry);
+
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        } catch (JournalEntryNotFoundException e) {
+            ApiResponseBody errorBody = buildErrorResponse("Journal Entry not found", null);
+
+            return new ResponseEntity<>(errorBody, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            ApiResponseBody errorBody = buildErrorResponse("Internal Server Error", null);
+
+            return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     //get all journal entries
     @GetMapping("/journalEntries")
-    public ResponseEntity<Iterable<JournalEntry>> getAllJournalEntries(){
-        Iterable<JournalEntry> journalEntries = journalEntryService.getAllJournalEntries();
-        return new ResponseEntity<>(journalEntries, HttpStatus.OK);
+    public ResponseEntity<ApiResponseBody> getAllJournalEntries() {
+        try {
+            Iterable<JournalEntry> journalEntries = journalEntryService.getAllJournalEntries();
+            ApiResponseBody responseBody = buildSuccessResponse("Journal Entries retrieved successfully", journalEntries);
+
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        } catch (Exception e) {
+            ApiResponseBody errorBody = buildErrorResponse("Internal Server Error", null);
+
+            return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     //get all journal entries for a user
     @GetMapping("/users/{userId}/journalEntries")
-    public ResponseEntity<Set<JournalEntry>> getAllJournalEntriesForUser(@PathVariable Long userId){
+    public ResponseEntity<ApiResponseBody> getAllJournalEntriesForUser(@PathVariable Long userId){
+        try {
+            Set<JournalEntry> journalEntries = journalEntryService.getAllJournalEntriesForUser(userId);
+            ApiResponseBody responseBody = buildSuccessResponse("Journal Entries for User retrieved successfully", journalEntries);
 
-        Set<JournalEntry> journalEntries = journalEntryService.getAllJournalEntriesForUser(userId);
-        return new ResponseEntity<>(journalEntries, HttpStatus.OK);
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            ApiResponseBody errorBody = buildErrorResponse("User not found", null);
+
+            return new ResponseEntity<>(errorBody, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            ApiResponseBody errorBody = buildErrorResponse("Internal Server Error", null);
+
+            return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
     //update journal entry
     @PutMapping("/journalEntry/{journalEntryId}")
-    public ResponseEntity<JournalEntry> updateJournalEntry(@PathVariable Long journalEntryId, @RequestBody JournalEntry journalEntry){
-        try{
+    public ResponseEntity<ApiResponseBody> updateJournalEntry(@PathVariable Long journalEntryId, @RequestBody JournalEntry journalEntry) {
+        try {
             JournalEntry updatedEntry = journalEntryService.updateJournalEntry(journalEntryId, journalEntry);
-            return  new ResponseEntity<>(updatedEntry, HttpStatus.OK);
-        }catch(JournalEntryNotFoundException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            ApiResponseBody responseBody = buildSuccessResponse("Journal Entry updated successfully", updatedEntry);
+
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        } catch (JournalEntryNotFoundException e) {
+            ApiResponseBody errorBody = buildErrorResponse("Journal Entry not found", null);
+
+            return new ResponseEntity<>(errorBody, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            ApiResponseBody errorBody = buildErrorResponse("Internal Server Error", null);
+
+            return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     //delete journal entry
     @DeleteMapping("/journalEntry/{journalEntryId}")
-    public ResponseEntity<Void> deleteJournalEntry(@PathVariable Long journalEntryId){
-        try{
+    public ResponseEntity<ApiResponseBody> deleteJournalEntry(@PathVariable Long journalEntryId) {
+        try {
             journalEntryService.deleteJournalEntry(journalEntryId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch(JournalEntryNotFoundException e){
+            ApiResponseBody responseBody = buildSuccessResponse("Journal Entry deleted successfully", null);
+
+            return new ResponseEntity<>(responseBody, HttpStatus.NO_CONTENT);
+        } catch (JournalEntryNotFoundException e) {
+
+            ApiResponseBody errorBody = buildErrorResponse("Journal Entry not found", null);
+
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
