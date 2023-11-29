@@ -1,5 +1,6 @@
 package com.passionProject.Mood.Journal.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.passionProject.Mood.Journal.enums.GeneralFeeling;
 
 import javax.persistence.*;
@@ -25,23 +26,26 @@ public class JournalEntry {
 
    private String weather;
 
-    @ManyToOne
+    @JsonBackReference
+   @ManyToOne
     @JoinColumn(name = "userId")//foriegn key column in the JournalEntry table
     private User user;
-    @OneToMany(mappedBy = "journalEntry", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MoodDetail> moodDetails;
+//    @OneToMany(mappedBy = "journalEntry")
+//    private Set<MoodDetail> moodDetails;
+    @Lob //database should treat this field as a large text object. This is useful when you expect the text data
+    // to be larger than what a typical VARCHAR column can accommodate
+    private String detailedEntry;
 
     public JournalEntry() {
     }
 
-    public Set<MoodDetail> getMoodDetails() {
-        return moodDetails;
-    }
+//    public Set<MoodDetail> getMoodDetails() {
+//        return moodDetails;
+//    }
 
-    public void setMoodDetails(Set<MoodDetail> moodDetails) {
-        this.moodDetails = moodDetails;
-    }
-
+//    public void setMoodDetails(Set<MoodDetail> moodDetails) {
+//        this.moodDetails = moodDetails;
+//    }
 
     public User getUser() {
         return user;
@@ -91,6 +95,13 @@ public class JournalEntry {
         this.weather = weather;
     }
 
+    public String getDetailedEntry() {
+        return detailedEntry;
+    }
+
+    public void setDetailedEntry(String detailedEntry) {
+        this.detailedEntry = detailedEntry;
+    }
 
     @Override
     public String toString() {
@@ -99,7 +110,9 @@ public class JournalEntry {
                 ", generalFeeling=" + generalFeeling +
                 ", entryDate=" + entryDate +
                 ", notes='" + notes + '\'' +
-                ", weather='" + weather  +
+                ", weather='" + weather + '\'' +
+                ", user=" + user +
+                ", detailedEntry='" + detailedEntry + '\'' +
                 '}';
     }
 }

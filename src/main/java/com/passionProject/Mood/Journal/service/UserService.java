@@ -64,10 +64,10 @@ public class UserService {
 
 
     //update a User
-    public User updateUser(Long userId, User updatedUser) throws UserNotFoundException{
+    public User updateUser(Long userId, User updatedUser) throws UserNotFoundException {
         Optional<User> user = userRepo.findById(userId);
 
-        if (user.isPresent()){
+        if (user.isPresent()) {
             User existingUser = user.get();
             existingUser.setUsername(updatedUser.getUsername());
             existingUser.setEmail(updatedUser.getEmail());
@@ -77,8 +77,10 @@ public class UserService {
 
             logger.info("User with id {} was successfully updated", userId);
             return existingUser;
+        } else {
+            throw new UserNotFoundException("User with id '" + userId + "' not found");
+
         }
-        return null;
     }
 
 

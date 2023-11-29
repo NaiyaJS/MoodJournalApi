@@ -1,5 +1,7 @@
 package com.passionProject.Mood.Journal.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.validation.constraints.NotBlank;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,21 +11,30 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
+   @NotBlank
     @Column(name = "username", unique = true, nullable = false)
     private String username;
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @NotBlank
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<JournalEntry> journalEntries = new HashSet<>();
 
     public User() {
     }
 
+    public Set<JournalEntry> getJournalEntries() {
+        return journalEntries;
+    }
 
+    public void setJournalEntries(Set<JournalEntry> journalEntries) {
+        this.journalEntries = journalEntries;
+    }
 
     public long getUserId() {
         return userId;
@@ -57,13 +68,6 @@ public class User {
         this.password = password;
     }
 
-    public Set<JournalEntry> getJournalEntries() {
-        return journalEntries;
-    }
-
-    public void setJournalEntries(Set<JournalEntry> journalEntries) {
-        this.journalEntries = journalEntries;
-    }
 
     @Override
     public String toString() {
@@ -71,8 +75,7 @@ public class User {
                 "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", journalEntries=" + journalEntries +
+                ", password='" + password +
                 '}';
     }
 }
