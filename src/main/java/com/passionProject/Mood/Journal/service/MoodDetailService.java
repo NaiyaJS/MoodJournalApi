@@ -45,8 +45,10 @@ public class MoodDetailService {
     }
 
     public Iterable<MoodDetail> getAllMoodDetails(){
+        logger.info("Getting all MoodDetails");
         return moodDetailRepo.findAllMoodDetails();
     }
+
     public MoodDetail getMoodDetailById(Long moodDetailId) throws MoodDetailNotFoundException {
         Optional<MoodDetail> moodDetail = moodDetailRepo.findById(moodDetailId);
         return moodDetail.orElseThrow(() ->
