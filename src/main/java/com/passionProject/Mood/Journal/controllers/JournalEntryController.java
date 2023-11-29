@@ -4,6 +4,7 @@ import com.passionProject.Mood.Journal.exceptions.JournalEntryNotFoundException;
 import com.passionProject.Mood.Journal.model.JournalEntry;
 import com.passionProject.Mood.Journal.model.MoodDetail;
 import com.passionProject.Mood.Journal.service.JournalEntryService;
+import com.passionProject.Mood.Journal.service.MoodDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ public class JournalEntryController {
 
     @Autowired
     private JournalEntryService journalEntryService;
+    @Autowired
+    MoodDetailService moodDetailService;
 
 
     //create entry
@@ -55,7 +58,7 @@ public class JournalEntryController {
     @GetMapping("/journalEntry/{journalEntryId}/moodDetails")
     public ResponseEntity<Set<MoodDetail>> getAllMoodDetailsByJournalEntry(@PathVariable Long journalEntryId){
       try {
-          Set<MoodDetail> moodDetails = journalEntryService.getAllMoodDetailsByJournalEntryId(journalEntryId);
+          Set<MoodDetail> moodDetails = moodDetailService.getAllMoodDetailsByJournalEntryId(journalEntryId);
           return new ResponseEntity<>(moodDetails, HttpStatus.OK);
       }catch(JournalEntryNotFoundException e){
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);

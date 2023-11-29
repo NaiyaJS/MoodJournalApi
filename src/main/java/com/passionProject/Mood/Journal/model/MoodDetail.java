@@ -8,13 +8,13 @@ public class MoodDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mood_detail_id")
+
     private long moodDetailId;
 
     @ManyToOne
-    @JoinColumn(name = "journal_entry_id")//foreign key column
+    @JoinColumn(name = "journalEntryId")//foreign key column
     private JournalEntry journalEntry;
-    @Column(name = "date_&_time")
+
     private LocalDateTime entryDateTime;//time of day when the detailed entry was written
     @Lob //database should treat this field as a large text object. This is useful when you expect the text data
          // to be larger than what a typical VARCHAR column can accommodate
@@ -23,12 +23,7 @@ public class MoodDetail {
     public MoodDetail() {
     }
 
-    public MoodDetail(long moodDetailId, JournalEntry journalEntry, LocalDateTime entryDateTime, String detailedEntry) {
-        this.moodDetailId = moodDetailId;
-        this.journalEntry = journalEntry;
-        this.entryDateTime = entryDateTime;
-        this.detailedEntry = detailedEntry;
-    }
+
 
     public long getMoodDetailId() {
         return moodDetailId;

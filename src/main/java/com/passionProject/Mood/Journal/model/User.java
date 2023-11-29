@@ -8,7 +8,6 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private long userId;
     @Column(name = "username", unique = true, nullable = false)
     private String username;
@@ -18,19 +17,13 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<JournalEntry> journalEntries = new HashSet<>();
 
     public User() {
     }
 
-    public User(long userId, String username, String email, String password, Set<JournalEntry> journalEntries) {
-        this.userId = userId;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.journalEntries = journalEntries;
-    }
+
 
     public long getUserId() {
         return userId;

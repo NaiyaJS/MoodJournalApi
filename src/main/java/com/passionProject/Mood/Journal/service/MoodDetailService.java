@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class MoodDetailService {
@@ -51,6 +52,11 @@ public class MoodDetailService {
         return moodDetail.orElseThrow(() ->
                 new MoodDetailNotFoundException("MoodDetail with id '" + moodDetailId + "' was not found."));
     }
+    //get all mood details by Journal entry Id
+    public Set<MoodDetail> getAllMoodDetailsByJournalEntryId(Long journalEntryId) throws JournalEntryNotFoundException{
+        JournalEntry journalEntry = journalEntryService.verifyJournalEntry(journalEntryId);
+        return journalEntry.getMoodDetails();
+    }
 
     public MoodDetail updateMoodDetail(Long moodDetailId, MoodDetail updatedMoodDetail) throws MoodDetailNotFoundException {
         Optional<MoodDetail> optionalMoodDetail = moodDetailRepo.findById(moodDetailId);
@@ -75,5 +81,6 @@ public class MoodDetailService {
         logger.info("MoodDetail has successfully been deleted");
         moodDetailRepo.deleteById(moodDetailId);
     }
+
 
 }

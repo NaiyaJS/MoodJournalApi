@@ -82,7 +82,7 @@ public class JournalEntryService {
                 editJournalEntry.setEntryDate(journalEntry.getEntryDate());
                 editJournalEntry.setNotes(journalEntry.getNotes());
                 editJournalEntry.setWeather(journalEntry.getWeather());
-                editJournalEntry.setMoodDetails(journalEntry.getMoodDetails());
+
 
                 journalEntryRepo.save(editJournalEntry);
 
@@ -99,12 +99,6 @@ public class JournalEntryService {
         logger.info("Journal Entry has Successfully been deleted");
         journalEntryRepo.deleteById(journalEntryId);
 
-    }
-    //get all mood details by Journal entry Id
-
-    public Set<MoodDetail> getAllMoodDetailsByJournalEntryId(Long journalEntryId) throws JournalEntryNotFoundException{
-        JournalEntry journalEntry = verifyJournalEntry(journalEntryId);
-        return journalEntry.getMoodDetails();
     }
 
 

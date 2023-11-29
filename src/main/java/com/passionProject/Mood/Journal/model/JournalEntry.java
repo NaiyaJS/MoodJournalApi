@@ -13,35 +13,35 @@ public class JournalEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "journal_entry_id")
+
     private long journalEntryId;
 
     @Enumerated(EnumType.STRING)
     private GeneralFeeling generalFeeling;
-   @Column(name = "entry_date")
+
     private LocalDate entryDate;
-   @Column(name = "notes")
+
    private String notes; //Additional notes about the day
-   @Column(name = "weather")
+
    private String weather;
-    @OneToMany(mappedBy = "journalEntry", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MoodDetail> moodDetails;//change to collection if changing field type later
+
     @ManyToOne
-    @JoinColumn(name = "user_id")//foriegn key column in the JournalEntry table
+    @JoinColumn(name = "userId")//foriegn key column in the JournalEntry table
     private User user;
+    @OneToMany(mappedBy = "journalEntry", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MoodDetail> moodDetails;
 
     public JournalEntry() {
     }
 
-    public JournalEntry(long journalEntryId, GeneralFeeling generalFeeling, LocalDate entryDate, String notes, String weather, Set<MoodDetail> moodDetails, User user) {
-        this.journalEntryId = journalEntryId;
-        this.generalFeeling = generalFeeling;
-        this.entryDate = entryDate;
-        this.notes = notes;
-        this.weather = weather;
-        this.moodDetails = moodDetails;
-        this.user = user;
+    public Set<MoodDetail> getMoodDetails() {
+        return moodDetails;
     }
+
+    public void setMoodDetails(Set<MoodDetail> moodDetails) {
+        this.moodDetails = moodDetails;
+    }
+
 
     public User getUser() {
         return user;
@@ -91,13 +91,6 @@ public class JournalEntry {
         this.weather = weather;
     }
 
-    public Set<MoodDetail> getMoodDetails() {
-        return moodDetails;
-    }
-
-    public void setMoodDetails(Set<MoodDetail> moodDetails) {
-        this.moodDetails = moodDetails;
-    }
 
     @Override
     public String toString() {
@@ -106,8 +99,7 @@ public class JournalEntry {
                 ", generalFeeling=" + generalFeeling +
                 ", entryDate=" + entryDate +
                 ", notes='" + notes + '\'' +
-                ", weather='" + weather + '\'' +
-                ", moodDetails=" + moodDetails +
+                ", weather='" + weather  +
                 '}';
     }
 }

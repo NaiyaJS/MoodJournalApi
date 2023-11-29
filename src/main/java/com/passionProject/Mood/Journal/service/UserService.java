@@ -45,7 +45,7 @@ public class UserService {
     //get user by id
     public User getUserById(Long userId) throws UserNotFoundException{
         logger.info("Getting user by id {} ...", userId);
-        return userRepo.findbyId(userId)
+        return userRepo.findById(userId)
             .orElseThrow(() -> {
                 String errorMessage = "User with id ;" + userId + "' was not found";
                 logger.error(errorMessage);
