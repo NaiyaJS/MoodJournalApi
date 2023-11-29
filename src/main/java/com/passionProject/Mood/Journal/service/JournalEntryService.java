@@ -62,6 +62,7 @@ public class JournalEntryService {
     }
    //get all journal entries
    public Iterable<JournalEntry> getAllJournalEntries(){
+        logger.info("Getting all Journal Entries");
         return journalEntryRepo.findAll();
    }
 

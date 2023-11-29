@@ -57,6 +57,7 @@ public class UserService {
 
     //get of all users use a list
     public Iterable<User> getAllUsers(){
+       logger.info("Getting all users ...");
         return userRepo.findAll();
     }
 
@@ -74,7 +75,7 @@ public class UserService {
 
             userRepo.save(existingUser);
 
-            logger.info("User was successfully updated");
+            logger.info("User with id {} was successfully updated", userId);
             return existingUser;
         }
         return null;
@@ -84,7 +85,7 @@ public class UserService {
     //delete a user
     public void deleteUser(Long userId) throws UserNotFoundException{
         verifyUser(userId);
-        logger.info("User has successfully been deleted");
+        logger.info("User with id {} has successfully been deleted", userId);
         userRepo.deleteById(userId);
     }
 
