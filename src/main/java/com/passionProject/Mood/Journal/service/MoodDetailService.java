@@ -1,6 +1,8 @@
 package com.passionProject.Mood.Journal.service;
 
+import com.passionProject.Mood.Journal.exceptions.JournalEntryNotFoundException;
 import com.passionProject.Mood.Journal.exceptions.MoodDetailNotFoundException;
+import com.passionProject.Mood.Journal.model.JournalEntry;
 import com.passionProject.Mood.Journal.model.MoodDetail;
 import com.passionProject.Mood.Journal.repositories.MoodDetailRepo;
 import org.slf4j.Logger;
@@ -15,6 +17,8 @@ public class MoodDetailService {
 
     @Autowired
     private MoodDetailRepo moodDetailRepo;
+    @Autowired
+    private JournalEntryService journalEntryService;
 
     private Logger logger = LoggerFactory.getLogger(MoodDetailService.class);
 
@@ -30,10 +34,12 @@ public class MoodDetailService {
 
         logger.info("MoodDetail '" + moodDetailId + "' verified Successfully");
     }
-    public MoodDetail createMoodDetail(MoodDetail moodDetail){
+    public MoodDetail createMoodDetail(MoodDetail moodDetail, Long journalEntryId) throws JournalEntryNotFoundException {
+        JournalEntry journalEntry1 = journalEntryService.getJournalEntryById(journalEntryId);
+        moodDetail.setJournalEntry(journalEntry1);
 
         MoodDetail savedMoodDetail = moodDetailRepo.save(moodDetail);
-        logger.info("Successfullly created MoodDetail");
+        logger.info("Successfully created MoodDetail");
         return savedMoodDetail;
     }
 
