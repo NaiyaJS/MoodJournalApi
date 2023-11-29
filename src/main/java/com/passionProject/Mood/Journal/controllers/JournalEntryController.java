@@ -22,7 +22,7 @@ public class JournalEntryController {
 
 
     //create entry
-    @PostMapping("/user/{userId}/journalEntry")
+    @PostMapping("/users/{userId}/journalEntry")
     public ResponseEntity<JournalEntry> createJournalEntry(@PathVariable Long userId, @RequestBody JournalEntry journalEntry){
         JournalEntry createdJournalEntry = journalEntryService.createJournalEntry(userId, journalEntry);
         return new ResponseEntity<>(createdJournalEntry, HttpStatus.CREATED);
@@ -47,7 +47,7 @@ public class JournalEntryController {
     }
 
     //get all journal entries for a user
-    @GetMapping("/user/{userId}/journalEntries")
+    @GetMapping("/users/{userId}/journalEntries")
     public ResponseEntity<Set<JournalEntry>> getAllJournalEntriesForUser(@PathVariable Long userId){
 
         Set<JournalEntry> journalEntries = journalEntryService.getAllJournalEntriesForUser(userId);
