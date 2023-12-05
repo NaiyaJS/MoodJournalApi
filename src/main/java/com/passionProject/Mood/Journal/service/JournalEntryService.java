@@ -62,10 +62,14 @@ public class JournalEntryService {
 
     }
     //get entry by id
-    public JournalEntry getJournalEntryById(Long journalEntryId) throws JournalEntryNotFoundException{
+    public JournalEntry getJournalEntryById(Long journalEntryId) {
         Optional<JournalEntry> journalEntry = journalEntryRepo.findById(journalEntryId);
-        return journalEntry.orElseThrow(() ->
-                new JournalEntryNotFoundException("Journal Entry ith id '" + journalEntryId + "' was not found."));
+        return journalEntry
+                .orElseThrow(() -> {
+
+                    logger.error("No journal entry exists with an id of: {}", journalEntryId);
+                    throw new JournalEntryNotFoundException("Journal Entry with id '" + journalEntryId + "' was not found.");
+                });
 
     }
    //get all journal entries
@@ -76,13 +80,15 @@ public class JournalEntryService {
 
     //get all journal entries for a user
     public Set<JournalEntry> getAllJournalEntriesForUser(Long userId){
+        logger.info("getting all Journal entries...");
         return journalEntryRepo.findJournalEntriesByUserId(userId);
     }
 
 
     //update journal entry
     public JournalEntry updateJournalEntry(Long journalEntryId, JournalEntry journalEntry) throws JournalEntryNotFoundException {
-            Optional<JournalEntry> findJournalEntryById = journalEntryRepo.findById(journalEntryId);
+        logger.info("Updating journal Entry with id: {}", journalEntryId);
+        Optional<JournalEntry> findJournalEntryById = journalEntryRepo.findById(journalEntryId);
 
             if(findJournalEntryById.isPresent()){
 
@@ -99,7 +105,7 @@ public class JournalEntryService {
                 logger.info("Journal was successfully Updated");
                 return editJournalEntry;
             }else{
-                logger.error("Unsuccessful attempt to edite. Journal Entry not found.");
+                logger.error("Unsuccessful attempt to edit. Journal Entry not found.");
                 throw new JournalEntryNotFoundException("Error updating Journal entry with Id" + journalEntryId);
             }
     }
