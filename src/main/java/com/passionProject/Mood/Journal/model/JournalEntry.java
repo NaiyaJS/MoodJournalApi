@@ -30,8 +30,7 @@ public class JournalEntry {
    @ManyToOne
     @JoinColumn(name = "userId")//foriegn key column in the JournalEntry table
     private User user;
-//    @OneToMany(mappedBy = "journalEntry")
-//    private Set<MoodDetail> moodDetails;
+
     @Lob //database should treat this field as a large text object. This is useful when you expect the text data
     // to be larger than what a typical VARCHAR column can accommodate
     private String detailedEntry;
@@ -39,13 +38,6 @@ public class JournalEntry {
     public JournalEntry() {
     }
 
-//    public Set<MoodDetail> getMoodDetails() {
-//        return moodDetails;
-//    }
-
-//    public void setMoodDetails(Set<MoodDetail> moodDetails) {
-//        this.moodDetails = moodDetails;
-//    }
 
     public User getUser() {
         return user;
