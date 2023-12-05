@@ -19,19 +19,7 @@ public class JournalEntryController {
 
     @Autowired
     private JournalEntryService journalEntryService;
-//    @Autowired
-//    MoodDetailService moodDetailService;
 
-
-    //create entry
-//    @PostMapping("/users/{userId}/journalEntry")
-//    public ResponseEntity<JournalEntry> createJournalEntry(@PathVariable Long userId, @RequestBody JournalEntry journalEntry){
-//
-//        JournalEntry createdJournalEntry = journalEntryService.createJournalEntry(userId, journalEntry);
-//
-//        return new ResponseEntity<>(createdJournalEntry, HttpStatus.CREATED);
-//
-//    }
     @PostMapping("/users/{userId}/journalEntry")
     public ResponseEntity<ApiResponseBody> createJournalEntry(@PathVariable Long userId, @RequestBody JournalEntry journalEntry) {
         try {
